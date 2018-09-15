@@ -59,7 +59,7 @@ exclude_patterns = []
 
 html_theme = 'default'
 
-html_static_path = ['.static']
+html_static_path = ['_static']
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'Python-Time BLOG'
