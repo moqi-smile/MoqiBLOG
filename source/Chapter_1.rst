@@ -1,163 +1,53 @@
-***************
-ESP32
-***************
+****************************
+Linux环境搭建
+****************************
 
-环境搭建
-=========================================================================
+1. 安装代码阅读软件
+==============================================
 
-	我用的环境是 ubuntu16.04 64位
-
-1.1 安装依赖软件
--------------------------------------------------------------------------
-
-.. code:: bash
-
-	sudo apt-get install gcc git wget make libncurses-dev flex bison gperf python python-serial python-pip
-
-
-
-1.2 获取源码
--------------------------------------------------------------------------
-
-先创建一个文件夹存放源码
-
-.. code:: bash
-
-	mkdir -p ~/work/sources
-	cd ~/work/sources
-
-下载源码
-
-.. code:: bash
-
-	git clone --recursive https://github.com/espressif/esp-idf.git
+1.1 wine 兼容层
+----------------------------------------------
 
 .. note::
 
-    注意这里有个 ``--recursive`` 选项。如果你克隆 ESP-IDF 时没有带这个选项，你还需要运行额外的命令来获取子模块： ::
+        Wine (Wine Is Not an Emulator)[即Wine不是一个模拟器]是一个在Linux和UNIX之上的,Windows 3.x和 Windows APIs的实现。注意，Wine不是Windows模拟器，而是运用API转换技术实做出Linux对应到Windows相对应的函数来调用DLL以运行Windows程序。
+        (选自百度百科)
 
-        cd ~/work/sources
-        git submodule update --init
+安装 wine
 
-设置环境变量
+.. code::
 
-.. code:: bash
+    sudo apt-get install wine
 
-	echo export IDF_PATH="~/work/sources/esp-idf" >> ~/.bashrc
-	source ~/.bashrc
-	
+在安装的过程中, 会跳出一个对话框ttf-mscorefonts-installer”, 这个时候只需要按tab键, 按ok, 然后会再跳出一个对话框, 再按yes就没问题了
 
-1.3 安装交叉编译链
--------------------------------------------------------------------------
 
-	创建一个文件夹来存放交叉编译链
+到这里就安装结束了, 安装完以后, 会发现～/文件夹下多了一个.wine文件夹, 我们以后安装的软件都会放在这个位置
 
-.. code:: bash
-
-	mkdir -p ~/work/tool
-	cd ~/work/tool
-
-- 32位 Linux系统:
-
-.. code:: bash
-
-	wget https://dl.espressif.com/dl/xtensa-esp32-elf-linux32-1.22.0-80-g6c4433a-5.2.0.tar.gz
-
-- 64位 Linux系统:
-
-.. code:: bash
-
-	wget https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-80-g6c4433a-5.2.0.tar.gz
-
-解压到opt文件夹下
-
-.. code:: bash
-
-	sudo tar -xvf xtensa-esp32-elf-linux64-1.22.0-80-g6c4433a-5.2.0.tar.gz -C /opt/
-
-设置环境变量
-
-.. code:: bash
-
-	echo export PATH="$PATH:/opt/xtensa-esp32-elf/bin" >> ~/.bashrc
-	source ~/.bashrc
-
-检验交叉链是否成功安装
-
-.. code:: bash
-
-	xtensa-esp32-elf-gcc -v
-
-如果输出
-
-.. figure:: ./_static/xtensa_gcc_output.png
-    :align: center
-    :figclass: align-center
-
-则已经安装成功
-
-安装依赖的 Python 软件包
-
-.. code:: bash
-
-	python -m pip install --user -r $IDF_PATH/requirements.txt
-
-1.4 创建一个工程
--------------------------------------------------------------------------
-
-到这里就可以开始开发ESP32了, 根据国际惯例, 我们先写一个Hello world的程序
-
-还是要先创建一个工程放置源代码
-
-.. code:: bash
-
-	mkdir -p ~/work/demo
-
-在ESP-idf里面有一个文件夹examples存放着ESP32的相关例程, 
-
-.. figure:: ./_static/Esp-idf_examples.png
-    :align: center
-    :figclass: align-center
-
-现在我们将get-started下的hello_world复制到我们的文件夹下
-
-.. code:: bash
-
-	cp -rf ~/work/sources/esp-idf/examples/get-started/hello_world/ ~/work/demo/
-	cd ~/work/demo/hello_world/
-
-编译程序
-
-.. code:: bash
-
-	make all
-
-如果输出这个, 则证明环境安装成功
-
-.. figure:: ./_static/make-flash_output.png
-    :align: center
-    :figclass: align-center
-
-接下来, 我们把目标板接到电脑, 将程序下载到开发板中, ESP32是支持直接在linux环境下下载程序, 但是在此之前得先修改下串口的权限
-
-.. code:: bash
-
-	sudo usermod -a -G dialout $USER
-	reboot
-
-输入完指令以后电脑会重启, 然后我们就可以下载程序了
-
-.. code:: bash
-
-	cd work/demo/hello_world/
-	make flash
+1.2 source insight
 
 .. note::
 
-	如果在这里没有成功下载, 那有可能是你的串口号不对, 你可以使用 make menuconfig 来修改串口号, 在命令行输入make menuconfig, 然后根据提示选择以下选项, 然后就可以更改串口号了 ::
+        Source Insight是一个面向项目开发的程序编辑器和代码浏览器，它拥有内置的对C/C++, C#和Java等程序的分析。能分析源代码并在工作的同时动态维护它自己的符号数据库，并自动显示有用的上下文信息。
+        (选自百度百科)
 
-		Serial flasher config  --->
-		(/dev/ttyUSB0) Default serial port
+因为source insight是在windows系统下用的软件, linux系统无法直接使用, 所以我们需要wine来让我们的linux系统兼容windows软件,在上文我们就介绍了wine怎么安装，接下来我们去下载source insight的软件安装包，这个可以在官网直接下载到，网址是。
 
+.. code::
 
-到这里, 你的ESP32的调试串口就会有Hello world输出了, 你可以使用串口调试工具来查看
+    https://www.sourceinsight.com/download/
+
+下载完以后只需要在下载好的的文件夹里输入
+
+.. code::
+
+    wine 下载的安装包
+
+就能够在Windows安装程序一样，安装source insight, 如果你像我一样安装在默认路径下,则source insight在 ~/.wine/drive_c/Program\ Files\ \(x86\)/Source\ Insight\ 4.0/sourceinsight4.exe 下, 你以后需要使用到他的时候, 你只需要 
+
+.. code::
+
+    wine .wine/drive_c/Program\ Files\ \(x86\)/Source\ Insight\ 4.0/sourceinsight4.exe
+
+就能打开source insight
+

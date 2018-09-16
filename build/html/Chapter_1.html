@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ESP32 &mdash; Moqi&#39;s BLOG 1.0.0 documentation</title>
+  <title>Linux环境搭建 &mdash; Moqi&#39;s BLOG 1.0.0 documentation</title>
   
 
   
@@ -28,7 +28,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Welcome to Moqi BLOG’s documentation!" href="index.html" /> 
+    <link rel="next" title="ESP32" href="Chapter_2.html" />
+    <link rel="prev" title="墨祈的博客" href="index.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -83,16 +84,14 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">ESP32</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">环境搭建</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id2">1.1 安装依赖软件</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id3">1.2 获取源码</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4">1.3 安装交叉编译链</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id5">1.4 创建一个工程</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Linux环境搭建</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">1. 安装代码阅读软件</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#wine">1.1 wine 兼容层</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="Chapter_2.html">ESP32</a></li>
 </ul>
 
             
@@ -138,7 +137,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>ESP32</li>
+      <li>Linux环境搭建</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -157,129 +156,42 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="esp32">
-<h1>ESP32<a class="headerlink" href="#esp32" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="linux">
+<h1>Linux环境搭建<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
-<h2>环境搭建<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<div>我用的环境是 ubuntu16.04 64位</div></blockquote>
-<div class="section" id="id2">
-<h3>1.1 安装依赖软件<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">gcc</span> <span class="n">git</span> <span class="n">wget</span> <span class="n">make</span> <span class="n">libncurses</span><span class="o">-</span><span class="n">dev</span> <span class="n">flex</span> <span class="n">bison</span> <span class="n">gperf</span> <span class="n">python</span> <span class="n">python</span><span class="o">-</span><span class="n">serial</span> <span class="n">python</span><span class="o">-</span><span class="n">pip</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="id3">
-<h3>1.2 获取源码<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-<p>先创建一个文件夹存放源码</p>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="o">~/</span><span class="n">work</span><span class="o">/</span><span class="n">sources</span>
-<span class="n">cd</span> <span class="o">~/</span><span class="n">work</span><span class="o">/</span><span class="n">sources</span>
-</pre></div>
-</div>
-<p>下载源码</p>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="o">--</span><span class="n">recursive</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">espressif</span><span class="o">/</span><span class="n">esp</span><span class="o">-</span><span class="n">idf</span><span class="o">.</span><span class="n">git</span>
-</pre></div>
-</div>
+<h2>1. 安装代码阅读软件<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="wine">
+<h3>1.1 wine 兼容层<a class="headerlink" href="#wine" title="Permalink to this headline">¶</a></h3>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p>注意这里有个 <code class="docutils literal notranslate"><span class="pre">--recursive</span></code> 选项。如果你克隆 ESP-IDF 时没有带这个选项，你还需要运行额外的命令来获取子模块：</p>
-<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">~/</span><span class="n">work</span><span class="o">/</span><span class="n">sources</span>
-<span class="n">git</span> <span class="n">submodule</span> <span class="n">update</span> <span class="o">--</span><span class="n">init</span>
+<p class="last">Wine (Wine Is Not an Emulator)[即Wine不是一个模拟器]是一个在Linux和UNIX之上的,Windows 3.x和 Windows APIs的实现。注意，Wine不是Windows模拟器，而是运用API转换技术实做出Linux对应到Windows相对应的函数来调用DLL以运行Windows程序。
+(选自百度百科)</p>
+</div>
+<p>安装 wine</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">wine</span>
 </pre></div>
 </div>
-</div>
-<p>设置环境变量</p>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">echo</span> <span class="n">export</span> <span class="n">IDF_PATH</span><span class="o">=</span><span class="s2">&quot;~/work/sources/esp-idf&quot;</span> <span class="o">&gt;&gt;</span> <span class="o">~/.</span><span class="n">bashrc</span>
-<span class="n">source</span> <span class="o">~/.</span><span class="n">bashrc</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="id4">
-<h3>1.3 安装交叉编译链<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
-<blockquote>
-<div>创建一个文件夹来存放交叉编译链</div></blockquote>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="o">~/</span><span class="n">work</span><span class="o">/</span><span class="n">tool</span>
-<span class="n">cd</span> <span class="o">~/</span><span class="n">work</span><span class="o">/</span><span class="n">tool</span>
-</pre></div>
-</div>
-<ul class="simple">
-<li>32位 Linux系统:</li>
-</ul>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">dl</span><span class="o">.</span><span class="n">espressif</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">dl</span><span class="o">/</span><span class="n">xtensa</span><span class="o">-</span><span class="n">esp32</span><span class="o">-</span><span class="n">elf</span><span class="o">-</span><span class="n">linux32</span><span class="o">-</span><span class="mf">1.22</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="mi">80</span><span class="o">-</span><span class="n">g6c4433a</span><span class="o">-</span><span class="mf">5.2</span><span class="o">.</span><span class="mf">0.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
-</pre></div>
-</div>
-<ul class="simple">
-<li>64位 Linux系统:</li>
-</ul>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">dl</span><span class="o">.</span><span class="n">espressif</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">dl</span><span class="o">/</span><span class="n">xtensa</span><span class="o">-</span><span class="n">esp32</span><span class="o">-</span><span class="n">elf</span><span class="o">-</span><span class="n">linux64</span><span class="o">-</span><span class="mf">1.22</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="mi">80</span><span class="o">-</span><span class="n">g6c4433a</span><span class="o">-</span><span class="mf">5.2</span><span class="o">.</span><span class="mf">0.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
-</pre></div>
-</div>
-<p>解压到opt文件夹下</p>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">tar</span> <span class="o">-</span><span class="n">xvf</span> <span class="n">xtensa</span><span class="o">-</span><span class="n">esp32</span><span class="o">-</span><span class="n">elf</span><span class="o">-</span><span class="n">linux64</span><span class="o">-</span><span class="mf">1.22</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="mi">80</span><span class="o">-</span><span class="n">g6c4433a</span><span class="o">-</span><span class="mf">5.2</span><span class="o">.</span><span class="mf">0.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span> <span class="o">-</span><span class="n">C</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span>
-</pre></div>
-</div>
-<p>设置环境变量</p>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">echo</span> <span class="n">export</span> <span class="n">PATH</span><span class="o">=</span><span class="s2">&quot;$PATH:/opt/xtensa-esp32-elf/bin&quot;</span> <span class="o">&gt;&gt;</span> <span class="o">~/.</span><span class="n">bashrc</span>
-<span class="n">source</span> <span class="o">~/.</span><span class="n">bashrc</span>
-</pre></div>
-</div>
-<p>检验交叉链是否成功安装</p>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">xtensa</span><span class="o">-</span><span class="n">esp32</span><span class="o">-</span><span class="n">elf</span><span class="o">-</span><span class="n">gcc</span> <span class="o">-</span><span class="n">v</span>
-</pre></div>
-</div>
-<p>如果输出</p>
-<div class="align-center figure">
-<img alt="_images/xtensa_gcc_output.png" src="_images/xtensa_gcc_output.png" />
-</div>
-<p>则已经安装成功</p>
-<p>安装依赖的 Python 软件包</p>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span>python -m pip install --user -r $IDF_PATH/requirements.txt
-</pre></div>
-</div>
-</div>
-<div class="section" id="id5">
-<h3>1.4 创建一个工程<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
-<p>到这里就可以开始开发ESP32了, 根据国际惯例, 我们先写一个Hello world的程序</p>
-<p>还是要先创建一个工程放置源代码</p>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="o">~/</span><span class="n">work</span><span class="o">/</span><span class="n">demo</span>
-</pre></div>
-</div>
-<p>在ESP-idf里面有一个文件夹examples存放着ESP32的相关例程,</p>
-<div class="align-center figure">
-<img alt="_images/Esp-idf_examples.png" src="_images/Esp-idf_examples.png" />
-</div>
-<p>现在我们将get-started下的hello_world复制到我们的文件夹下</p>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cp</span> <span class="o">-</span><span class="n">rf</span> <span class="o">~/</span><span class="n">work</span><span class="o">/</span><span class="n">sources</span><span class="o">/</span><span class="n">esp</span><span class="o">-</span><span class="n">idf</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">get</span><span class="o">-</span><span class="n">started</span><span class="o">/</span><span class="n">hello_world</span><span class="o">/</span> <span class="o">~/</span><span class="n">work</span><span class="o">/</span><span class="n">demo</span><span class="o">/</span>
-<span class="n">cd</span> <span class="o">~/</span><span class="n">work</span><span class="o">/</span><span class="n">demo</span><span class="o">/</span><span class="n">hello_world</span><span class="o">/</span>
-</pre></div>
-</div>
-<p>编译程序</p>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="nb">all</span>
-</pre></div>
-</div>
-<p>如果输出这个, 则证明环境安装成功</p>
-<div class="align-center figure">
-<img alt="_images/make-flash_output.png" src="_images/make-flash_output.png" />
-</div>
-<p>接下来, 我们把目标板接到电脑, 将程序下载到开发板中, ESP32是支持直接在linux环境下下载程序, 但是在此之前得先修改下串口的权限</p>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span>sudo usermod -a -G dialout $USER
-reboot
-</pre></div>
-</div>
-<p>输入完指令以后电脑会重启, 然后我们就可以下载程序了</p>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">work</span><span class="o">/</span><span class="n">demo</span><span class="o">/</span><span class="n">hello_world</span><span class="o">/</span>
-<span class="n">make</span> <span class="n">flash</span>
-</pre></div>
-</div>
+<p>在安装的过程中, 会跳出一个对话框ttf-mscorefonts-installer”, 这个时候只需要按tab键, 按ok, 然后会再跳出一个对话框, 再按yes就没问题了</p>
+<p>到这里就安装结束了, 安装完以后, 会发现～/文件夹下多了一个.wine文件夹, 我们以后安装的软件都会放在这个位置</p>
+<p>1.2 source insight</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p>如果在这里没有成功下载, 那有可能是你的串口号不对, 你可以使用 make menuconfig 来修改串口号, 在命令行输入make menuconfig, 然后根据提示选择以下选项, 然后就可以更改串口号了</p>
-<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Serial</span> <span class="n">flasher</span> <span class="n">config</span>  <span class="o">---&gt;</span>
-<span class="p">(</span><span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">ttyUSB0</span><span class="p">)</span> <span class="n">Default</span> <span class="n">serial</span> <span class="n">port</span>
+<p class="last">Source Insight是一个面向项目开发的程序编辑器和代码浏览器，它拥有内置的对C/C++, C#和Java等程序的分析。能分析源代码并在工作的同时动态维护它自己的符号数据库，并自动显示有用的上下文信息。
+(选自百度百科)</p>
+</div>
+<p>因为source insight是在windows系统下用的软件, linux系统无法直接使用, 所以我们需要wine来让我们的linux系统兼容windows软件,在上文我们就介绍了wine怎么安装，接下来我们去下载source insight的软件安装包，这个可以在官网直接下载到，网址是。</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">sourceinsight</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">download</span><span class="o">/</span>
 </pre></div>
 </div>
+<p>下载完以后只需要在下载好的的文件夹里输入</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wine</span> <span class="n">下载的安装包</span>
+</pre></div>
 </div>
-<p>到这里, 你的ESP32的调试串口就会有Hello world输出了, 你可以使用串口调试工具来查看</p>
+<p>就能够在Windows安装程序一样，安装source insight, 如果你像我一样安装在默认路径下,则source insight在 ~/.wine/drive_c/ProgramFiles(x86)/SourceInsight4.0/sourceinsight4.exe 下, 你以后需要使用到他的时候, 你只需要</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wine</span> <span class="o">.</span><span class="n">wine</span><span class="o">/</span><span class="n">drive_c</span><span class="o">/</span><span class="n">Program</span>\ <span class="n">Files</span>\ \<span class="p">(</span><span class="n">x86</span>\<span class="p">)</span><span class="o">/</span><span class="n">Source</span>\ <span class="n">Insight</span>\ <span class="mf">4.0</span><span class="o">/</span><span class="n">sourceinsight4</span><span class="o">.</span><span class="n">exe</span>
+</pre></div>
+</div>
+<p>就能打开source insight</p>
 </div>
 </div>
 </div>
@@ -292,8 +204,10 @@ reboot
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="Chapter_2.html" class="btn btn-neutral float-right" title="ESP32" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-        <a href="index.html" class="btn btn-neutral" title="Welcome to Moqi BLOG’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+        <a href="index.html" class="btn btn-neutral" title="墨祈的博客" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -335,6 +249,7 @@ reboot
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
