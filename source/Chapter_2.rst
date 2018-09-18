@@ -149,7 +149,7 @@ ESP32
 
 .. code:: bash
 
-	cd work/demo/hello_world/
+	cd ~/work/demo/hello_world/
 	make flash
 
 .. note::
@@ -161,3 +161,80 @@ ESP32
 
 
 到这里, 你的ESP32的调试串口就会有Hello world输出了, 你可以使用串口调试工具来查看
+
+
+深入开发
+=========================================================================
+
+
+2.1 建立一个空的工程
+-------------------------------------------------------------------------
+
+我们先进入我们之前建立的demo文件夹, 然后创建一个新的文件夹来存放我们的工程
+
+.. code:: bash
+
+    cd ~/work/demo/
+    mkdir lesson1_empty_project/
+    cd lesson1_empty_project/
+
+我们首先需要一个Makefile文件,熟悉linux下编程的人就知道,Makefile是用来管理工程用的
+
+.. code:: bash
+
+    touch Makefile
+
+接下来在Makefile文件下输入以下内容
+
+.. code:: bash
+
+    PROJECT_NAME := lesson-1
+    include $(IDF_PATH)/make/project.mk
+
+第一行代码的意思是输入你这个工程的名字,第二行的代码是帮你链接ESP-idf的工程文件,ESP-idf已经帮你把ESP32的驱动文件写好了,我们仅需要调用他的Api就可以, 接下来我们创建一个主文件夹来存放我们的工程代码
+
+.. code:: bash
+
+    mkdir main
+    cd main
+    touch component.mk
+    touch main.c
+
+接下来在main.c输入以下内容
+
+.. code:: bash
+
+    #include <stdio.h>
+    #include "freertos/FreeRTOS.h"
+    #include "freertos/task.h"
+    #include "esp_system.h"
+
+    void app_main()
+    {
+        while (1)
+        {
+            printf ("Hell World\n");
+            vTaskDelay(1000 / portTICK_PERIOD_MS);
+        }
+    }
+
+到这里整个工程就已经成功搭建完毕, 已经可以像1.4节一样编译并下载到我们的ESP32的开发板里面去。你们也可以直接到我的github里下载完整的工程, 以后别的工程我也会直接推送到github。
+
+.. code:: bash
+
+    https://github.com/moqi-smile/ESP32-Project.git
+
+2.2 点亮一个led
+-------------------------------------------------------------------------
+
+2.3 串口回调函数
+-------------------------------------------------------------------------
+
+2.4 让你的ESP32连接上你的路由器(wifi)
+-------------------------------------------------------------------------
+
+2.5 让你的ESP32连接上你的路由器(网线)
+-------------------------------------------------------------------------
+
+2.6 
+

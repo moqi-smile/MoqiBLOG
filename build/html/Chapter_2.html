@@ -92,6 +92,14 @@
 <li class="toctree-l3"><a class="reference internal" href="#id5">1.4 创建一个工程</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">深入开发</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id7">2.1 建立一个空的工程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#led">2.2 点亮一个led</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">2.3 串口回调函数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#esp32-wifi">2.4 让你的ESP32连接上你的路由器(wifi)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">2.5 让你的ESP32连接上你的路由器(网线)</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -268,7 +276,7 @@ reboot
 </pre></div>
 </div>
 <p>输入完指令以后电脑会重启, 然后我们就可以下载程序了</p>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">work</span><span class="o">/</span><span class="n">demo</span><span class="o">/</span><span class="n">hello_world</span><span class="o">/</span>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">~/</span><span class="n">work</span><span class="o">/</span><span class="n">demo</span><span class="o">/</span><span class="n">hello_world</span><span class="o">/</span>
 <span class="n">make</span> <span class="n">flash</span>
 </pre></div>
 </div>
@@ -281,6 +289,63 @@ reboot
 </div>
 </div>
 <p>到这里, 你的ESP32的调试串口就会有Hello world输出了, 你可以使用串口调试工具来查看</p>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>深入开发<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h3>2.1 建立一个空的工程<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>我们先进入我们之前建立的demo文件夹, 然后创建一个新的文件夹来存放我们的工程</p>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">~/</span><span class="n">work</span><span class="o">/</span><span class="n">demo</span><span class="o">/</span>
+<span class="n">mkdir</span> <span class="n">lesson1_empty_project</span><span class="o">/</span>
+<span class="n">cd</span> <span class="n">lesson1_empty_project</span><span class="o">/</span>
+</pre></div>
+</div>
+<p>我们首先需要一个Makefile文件,熟悉linux下编程的人就知道,Makefile是用来管理工程用的</p>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">touch</span> <span class="n">Makefile</span>
+</pre></div>
+</div>
+<p>接下来在Makefile文件下输入以下内容</p>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span>PROJECT_NAME := lesson-1
+include $(IDF_PATH)/make/project.mk
+</pre></div>
+</div>
+<p>第一行代码的意思是输入你这个工程的名字,第二行的代码是帮你链接ESP-idf的工程文件,ESP-idf已经帮你把ESP32的驱动文件写好了,我们仅需要调用他的Api就可以, 接下来我们创建一个主文件夹来存放我们的工程代码</p>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">main</span>
+<span class="n">cd</span> <span class="n">main</span>
+<span class="n">touch</span> <span class="n">component</span><span class="o">.</span><span class="n">mk</span>
+<span class="n">touch</span> <span class="n">main</span><span class="o">.</span><span class="n">c</span>
+</pre></div>
+</div>
+<p>接下来在main.c输入以下内容</p>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#include &lt;stdio.h&gt;</span>
+<span class="c1">#include &quot;freertos/FreeRTOS.h&quot;</span>
+<span class="c1">#include &quot;freertos/task.h&quot;</span>
+<span class="c1">#include &quot;esp_system.h&quot;</span>
+
+<span class="n">void</span> <span class="n">app_main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">printf</span> <span class="p">(</span><span class="s2">&quot;Hell World</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
+        <span class="n">vTaskDelay</span><span class="p">(</span><span class="mi">1000</span> <span class="o">/</span> <span class="n">portTICK_PERIOD_MS</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="led">
+<h3>2.2 点亮一个led<a class="headerlink" href="#led" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id8">
+<h3>2.3 串口回调函数<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="esp32-wifi">
+<h3>2.4 让你的ESP32连接上你的路由器(wifi)<a class="headerlink" href="#esp32-wifi" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id9">
+<h3>2.5 让你的ESP32连接上你的路由器(网线)<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>2.6</p>
 </div>
 </div>
 </div>
