@@ -270,6 +270,15 @@
 <div class="align-center figure">
 <img alt="_images/make-flash_output.png" src="_images/make-flash_output.png" />
 </div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>在第一次编译的时候会弹出一个界面, 这个界面是用来设定你这个设置一些工程的参数, 比如说系统的频率, ESP32的主频, 下载的串口等等, 如果你需要也可以直接输入make menuconfig进入</p>
+<blockquote class="last">
+<div><div class="align-center figure">
+<img alt="_images/lesson1_makemenuconfig.png" src="_images/lesson1_makemenuconfig.png" />
+</div>
+</div></blockquote>
+</div>
 <p>接下来, 我们把目标板接到电脑, 将程序下载到开发板中, ESP32是支持直接在linux环境下下载程序, 但是在此之前得先修改下串口的权限</p>
 <div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span>sudo usermod -a -G dialout $USER
 reboot
@@ -331,6 +340,10 @@ include $(IDF_PATH)/make/project.mk
         <span class="n">vTaskDelay</span><span class="p">(</span><span class="mi">1000</span> <span class="o">/</span> <span class="n">portTICK_PERIOD_MS</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
+</pre></div>
+</div>
+<p>到这里整个工程就已经成功搭建完毕, 已经可以像1.4节一样编译并下载到我们的ESP32的开发板里面去。你们也可以直接到我的github里下载完整的工程, 以后别的工程我也会直接推送到github。</p>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">moqi</span><span class="o">-</span><span class="n">smile</span><span class="o">/</span><span class="n">ESP32</span><span class="o">-</span><span class="n">Project</span><span class="o">.</span><span class="n">git</span>
 </pre></div>
 </div>
 </div>

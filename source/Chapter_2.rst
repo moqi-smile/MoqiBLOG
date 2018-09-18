@@ -138,6 +138,14 @@ ESP32
     :align: center
     :figclass: align-center
 
+.. note::
+
+    在第一次编译的时候会弹出一个界面, 这个界面是用来设定你这个设置一些工程的参数, 比如说系统的频率, ESP32的主频, 下载的串口等等, 如果你需要也可以直接输入make menuconfig进入
+
+	.. figure:: ./_static/lesson1_makemenuconfig.png
+	    :align: center
+	    :figclass: align-center
+
 接下来, 我们把目标板接到电脑, 将程序下载到开发板中, ESP32是支持直接在linux环境下下载程序, 但是在此之前得先修改下串口的权限
 
 .. code:: bash
@@ -213,19 +221,40 @@ ESP32
     {
         while (1)
         {
-            printf ("Hell World\n");
             vTaskDelay(1000 / portTICK_PERIOD_MS);
         }
     }
 
-到这里整个工程就已经成功搭建完毕, 已经可以像1.4节一样编译并下载到我们的ESP32的开发板里面去。你们也可以直接到我的github里下载完整的工程, 以后别的工程我也会直接推送到github。
+这里整个工程就已经成功搭建完毕, 已经可以像1.4节一样编译并下载到我们的ESP32的开发板里面去。你们也可以直接到我的github里下载完整的工程, 以后别的工程我也会直接推送到github。
 
 .. code:: bash
 
     https://github.com/moqi-smile/ESP32-Project.git
 
+有些开发者,喜欢将一些自己写的驱动代码与应用代码放在多个不同的文件夹内来管理, 也有的是喜欢将所有文件放在一个文件夹里。我是属于前者，所以我会再弄多一个文件夹来存放驱动文件, 接下来我就叫大家这个方法。如果你是后者, 这一步就可以直接跳过。
+首先, 还是要先创建一个文件夹来存放文件
+
+.. code:: bash
+
+    mkdir -p components/hal/include
+    cd components/hal
+
+hal这个文件夹我们拿来存放esp32的驱动文件(GPIO, wifi, eth等等), hal下的include文件夹拿来存放驱动的头文件，接下来我们创建工程文件。
+
+.. code:: bash
+
+    touch Gpio.c
+    touch include/Gpio.h 
+    touch component.mk
+
+熟悉c语言编程的应该都知道这些文件来做什么, 在这里我就不再赘述，驱动文件到这里就创建结束，如果需要存放其他驱动文件也可以按照这个结果在components文件下创建驱动文件。
+
+Gpio.c 
 2.2 点亮一个led
 -------------------------------------------------------------------------
+
+    
+
 
 2.3 串口回调函数
 -------------------------------------------------------------------------
