@@ -13,3 +13,4 @@
 
    Chapter_1.rst
    Chapter_2.rst
+   Chapter_3.rst

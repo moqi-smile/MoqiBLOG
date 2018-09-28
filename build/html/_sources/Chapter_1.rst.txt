@@ -1,5 +1,5 @@
 ****************************
-Linux环境搭建
+Linux环境配置
 ****************************
 
 安装代码阅读软件
@@ -52,4 +52,7 @@ Linux环境搭建
     wine .wine/drive_c/Program\ Files\ \(x86\)/Source\ Insight\ 4.0/sourceinsight4.exe
 
 就能打开source insight
+
+安装 tftp
+====================================================================
 

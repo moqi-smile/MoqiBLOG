@@ -1,0 +1,283 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>openwrt &mdash; Moqi&#39;s BLOG 1.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="ESP32" href="Chapter_2.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Moqi's BLOG
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Chapter_1.html">Linux环境配置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Chapter_2.html">ESP32</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">openwrt</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">1. 环境搭建</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1.1 安装依赖</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">1.2 获取源码</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">1.3 编译源码</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Moqi's BLOG</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>openwrt</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/Chapter_3.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="openwrt">
+<h1>openwrt<a class="headerlink" href="#openwrt" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>1. 环境搭建<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h3>1.1 安装依赖<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">subversion</span> <span class="n">build</span><span class="o">-</span><span class="n">essential</span> <span class="n">libncurses5</span><span class="o">-</span><span class="n">dev</span> <span class="n">zlib1g</span><span class="o">-</span><span class="n">dev</span> <span class="n">gawk</span> <span class="n">git</span> <span class="n">ccache</span> <span class="n">gettext</span> <span class="n">libssl</span><span class="o">-</span><span class="n">dev</span> <span class="n">xsltproc</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h3>1.2 获取源码<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="o">~/</span><span class="n">work</span><span class="o">/</span><span class="n">sources</span><span class="o">/</span>
+<span class="n">cd</span> <span class="o">~/</span><span class="n">work</span><span class="o">/</span><span class="n">sources</span><span class="o">/</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">openwrt</span><span class="o">/</span><span class="n">openwrt</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h3>1.3 编译源码<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>更新安装包</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">~/</span><span class="n">work</span><span class="o">/</span><span class="n">sources</span><span class="o">/</span><span class="n">openwrt</span><span class="o">/</span>
+<span class="o">./</span><span class="n">scripts</span><span class="o">/</span><span class="n">feeds</span> <span class="n">update</span> <span class="o">-</span><span class="n">a</span>
+<span class="o">./</span><span class="n">scripts</span><span class="o">/</span><span class="n">feeds</span> <span class="n">install</span> <span class="o">-</span><span class="n">a</span>
+</pre></div>
+</div>
+<p>选择开发平台, 我用的是联发科的7628</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">menuconfig</span>
+</pre></div>
+</div>
+<p>输入上面的指令以后就会弹出一个菜单, 选择</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Target</span> <span class="n">System</span> <span class="o">---&gt;</span>
+        <span class="n">MediaTek</span> <span class="n">Ralink</span> <span class="n">MIPS</span>
+
+<span class="n">Subtarget</span> <span class="o">---&gt;</span>
+        <span class="n">MT76x8</span> <span class="n">based</span> <span class="n">boards</span>
+</pre></div>
+</div>
+<p>这样我们就选好了7628作为我们的开发平台, 接下来勾选以下选项, 这个是为了生成交叉编译链</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Package</span> <span class="n">the</span> <span class="n">OpenWrt</span><span class="o">-</span><span class="n">based</span> <span class="n">Toolchain</span>
+</pre></div>
+</div>
+<p>这样我们就将所有准做好了, 接下来编译源码</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">V</span><span class="o">=</span><span class="n">s</span>
+</pre></div>
+</div>
+<p>编译源码的时间十分漫长, 大概需要四五个小时, 中间还需要下载一些软件包, 如果希望能快些编译好的话可以先下载这些软件包, 我已经将这些软件包上传到我的github上了, 地址是</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">moqi</span><span class="o">-</span><span class="n">smile</span><span class="o">/</span><span class="n">openwrt</span><span class="o">-</span><span class="n">dl</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+<p>编译完以后, 可以在以下路径看到固件, 固件名字是 openwrt-ramips-mt76x8-mt7628-squashfs-sysupgrade.bin</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">~/</span><span class="n">work</span><span class="o">/</span><span class="n">sources</span><span class="o">/</span><span class="n">openwrt</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">targets</span><span class="o">/</span><span class="n">ramips</span><span class="o">/</span><span class="n">mt76x8</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="Chapter_2.html" class="btn btn-neutral" title="ESP32" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Moqi.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
