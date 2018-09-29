@@ -1,74 +1,129 @@
+************************************************************************
 openwrt
-*************************************************************************
+************************************************************************
 
+=========================================================================
 1. 环境搭建
 =========================================================================
 
+	以下操作全都是在用户权限下操作, 我的源码放在了 **/home/moqi/work/sources/** 交叉工具链放在 **/opt/**
+	
+-------------------------------------------------------------------------
 1.1 安装依赖
 -------------------------------------------------------------------------
 
-.. code::
+	.. code::
 
-	sudo apt-get install subversion build-essential libncurses5-dev zlib1g-dev gawk git ccache gettext libssl-dev xsltproc
+		sudo apt-get install subversion build-essential libncurses5-dev zlib1g-dev gawk git ccache gettext libssl-dev xsltproc
 
-
+-------------------------------------------------------------------------
 1.2 获取源码
 -------------------------------------------------------------------------
 
-.. code::
+	.. code::
 
-	mkdir -p ~/work/sources/
-	cd ~/work/sources/
-	https://github.com/openwrt/openwrt.git
+		mkdir -p ~/work/sources/
+		cd ~/work/sources/
+		https://github.com/openwrt/openwrt.git
 
+-------------------------------------------------------------------------
 1.3 编译源码
 -------------------------------------------------------------------------
 
-更新安装包
+	更新安装包
 
-.. code::
+	.. code::
 	
-	cd ~/work/sources/openwrt/
-	./scripts/feeds update -a
-	./scripts/feeds install -a
+		cd ~/work/sources/openwrt/
+		./scripts/feeds update -a
+		./scripts/feeds install -a
 
-选择开发平台, 我用的是联发科的7628
+	选择开发平台, 我用的是联发科的7628
 
-.. code::
+	.. code::
 
-	make menuconfig
+		make menuconfig
 
-输入上面的指令以后就会弹出一个菜单, 选择
+	输入上面的指令以后就会弹出一个菜单, 选择
 
-.. code::
+	.. code::
 
-	Target System --->
-		MediaTek Ralink MIPS
+		Target System --->
+			MediaTek Ralink MIPS
+
+		Subtarget --->
+			MT76x8 based boards
+
+	这样我们就选好了7628作为我们的开发平台, 接下来勾选以下选项, 这个是为了生成交叉编译链
+
+	.. code::
+
+		Package the OpenWrt-based Toolchain
+
+	这样我们就将所有准做好了, 接下来编译源码
+
+	.. code::
+
+		make V=s
+
+	编译源码的时间十分漫长, 大概需要四五个小时, 中间还需要下载一些软件包, 如果希望能快些编译好的话可以先下载这些软件包, 我已经将这些软件包上传到我的github上了, 地址是
+
+	.. code::
 	
-	Subtarget --->
-		MT76x8 based boards
+		https://github.com/moqi-smile/openwrt-dl.git
 
-这样我们就选好了7628作为我们的开发平台, 接下来勾选以下选项, 这个是为了生成交叉编译链
+	编译完以后, 可以在以下路径看到固件, 固件名字是 **openwrt-ramips-mt76x8-mt7628-squashfs-sysupgrade.bin**
 
-.. code::
+	.. code::
 
-	Package the OpenWrt-based Toolchain
+		~/work/sources/openwrt/bin/targets/ramips/mt76x8
 
-这样我们就将所有准做好了, 接下来编译源码
 
-.. code::
+-------------------------------------------------------------------------
+1.4 安装交叉编译链
+-------------------------------------------------------------------------
 
-	make V=s
+	在生成固件下的文件夹下这个压缩包 **openwrt-toolchain-ramips-mt76x8_gcc-7.3.0_musl.Linux-x86_64.tar.bz2** ，这个就是我们要的交叉编译链, 这个只要解压到我们想要指定的文件夹，然后再设置环境变量就可以了, 我一般都将交叉编译链放在/opt/下。必须得有选择 **Package the OpenWrt-based Toolchain** 才会出现该文件。
 
-编译源码的时间十分漫长, 大概需要四五个小时, 中间还需要下载一些软件包, 如果希望能快些编译好的话可以先下载这些软件包, 我已经将这些软件包上传到我的github上了, 地址是
+	.. code::
 
-.. code::
+		sudo tar xvf ~/work/sources/openwrt/bin/targets/ramips/mt76x8/openwrt-toolchain-ramips-mt76x8_gcc-7.3.0_musl.Linux-x86_64.tar.bz2 -C /opt/
 
-	https://github.com/moqi-smile/openwrt-dl.git
+	接下来设置环境变量
 
-编译完以后, 可以在以下路径看到固件, 固件名字是 openwrt-ramips-mt76x8-mt7628-squashfs-sysupgrade.bin
+	.. code::
 
-.. code::
+		sudo mv /opt/openwrt-toolchain-ramips-mt76x8_gcc-7.3.0_musl.Linux-x86_64/ /opt/ramips-mt76x8_gcc-7.3.0
+		echo export PATH=/opt/ramips-mt76x8_gcc-7.3.0/toolchain-mipsel_24kc_gcc-7.3.0_musl/bin:$PATH >> ~/.bashrc
+		source ~/.bashrc
 
-	~/work/sources/openwrt/bin/targets/ramips/mt76x8
+	如果输入 **mipsel-openwrt-linux-gcc -v** 会出现以下输出, 则证明已经安装成功(其实输出的东西很长，我只截了一段只要有类似的输出就证明安装成功)
+
+	.. code::
+
+		Reading specs from /opt/ramips-mt76x8_gcc-7.3.0/toolchain-mipsel_24kc_gcc-7.3.0_musl/bin/../lib/gcc/mipsel-openwrt-linux-musl/7.3.0/specs
+		COLLECT_GCC=mipsel-openwrt-linux-musl-gcc.bin
+		COLLECT_LTO_WRAPPER=/opt/ramips-mt76x8_gcc-7.3.0/toolchain-mipsel_24kc_gcc-7.3.0_musl/bin/../libexec/gcc/mipsel-openwrt-linux-musl/7.3.0/lto-wrapper
+		Target: mipsel-openwrt-linux-musl
+		Configured with: /home/moqi/work/sources/openwrt/build_dir/toolchain-mipsel_24kc_gcc-7.3.0_musl/gcc-7.3.0/configure --with-bugurl=http://www.lede-project.org/bugs/ --with-pkgversion='OpenWrt GCC 7.3.0 r8089-a6beca1' --prefix=/home/moqi/work/sources/openwrt/staging_dir/toolchain-mipsel_24kc_gcc-7.3.0_musl --build=x86_64-pc-linux-gnu --host=x86_64-pc-linux-gnu --target=mipsel-openwrt-linux-musl --with-gnu-ld --enable-target-optspace --disable-libgomp --disable-libmudflap --disable-multilib --disable-libmpx --disable-nls --without-isl --without-cloog --with-host-libstdcxx=-lstdc++ --with-float=soft --with-gmp=/home/moqi/work/sources/openwrt/staging_dir/host --with-mpfr=/home/moqi/work/sources/openwrt/staging_dir/host --with-mpc=/home/moqi/work/sources/openwrt/staging_dir/host --disable-decimal-float --with-mips-plt --with-diagnostics-color=auto-if-env --disable-libssp --enable-__cxa_atexit --with-headers=/home/moqi/work/sources/openwrt/staging_dir/toolchain-mipsel_24kc_gcc-7.3.0_musl/include --disable-libsanitizer --enable-languages=c,c++ --enable-shared --enable-threads --with-slibdir=/home/moqi/work/sources/openwrt/staging_dir/toolchain-mipsel_24kc_gcc-7.3.0_musl/lib --enable-lto --with-libelf=/home/moqi/work/sources/openwrt/staging_dir/host
+		Thread model: posix
+
+
+=========================================================================
+2 深入开发
+=========================================================================
+
+-------------------------------------------------------------------------
+2.1 配置网络
+-------------------------------------------------------------------------
+
+	这里所有都是以MT7628为例, 如果你使用的是不同的板子只要修改到不同的板级就行
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2.1.1配置有线网络
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	修改的文件夹在 **target/linux/ramips/base-files/etc/board.d/02_network**
+
+
 
