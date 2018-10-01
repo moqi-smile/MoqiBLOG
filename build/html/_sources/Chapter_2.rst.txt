@@ -4,47 +4,43 @@ ESP32
 环境搭建
 =========================================================================
 
-	我用的环境是 ubuntu16.04 64位
+我用的环境是 ubuntu16.04 64位, 所有的操作都是在用户权限下操作
 
 1.1 安装依赖软件
 -------------------------------------------------------------------------
 
-.. code:: bash
+.. code:: 
 
 	sudo apt-get install gcc git wget make libncurses-dev flex bison gperf python python-serial python-pip
-
-
 
 1.2 获取源码
 -------------------------------------------------------------------------
 
 先创建一个文件夹存放源码
 
-.. code:: bash
+.. code:: 
 
 	mkdir -p ~/work/sources
 	cd ~/work/sources
 
 下载源码
 
-.. code:: bash
+.. code::
 
 	git clone --recursive https://github.com/espressif/esp-idf.git
 
 .. note::
 
-    注意这里有个 ``--recursive`` 选项。如果你克隆 ESP-IDF 时没有带这个选项，你还需要运行额外的命令来获取子模块： ::
-
-        cd ~/work/sources
-        git submodule update --init
-
+	注意这里有个 ``--recursive`` 选项。如果你克隆 ESP-IDF 时没有带这个选项，你还需要运行额外的命令来获取子模块： 
+	cd ~/work/sources
+	git submodule update --init
+	
 设置环境变量
 
 .. code:: bash
 
 	echo export IDF_PATH="~/work/sources/esp-idf" >> ~/.bashrc
 	source ~/.bashrc
-	
 
 1.3 安装交叉编译链
 -------------------------------------------------------------------------
